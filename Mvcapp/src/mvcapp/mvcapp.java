@@ -2,8 +2,8 @@ package mvcapp;
 
 public class mvcapp {
     public static void main(String[] args) {
-        ViewContact vc = new ViewContact();
-        ModelContact mc = new ModelContact();
-        ControllerContact cc = new ControllerContact(mc, vc);
+        ModelContact model = new ModelContact();
+        ViewContact view = new ViewContact();
+        ControllerContact controller = new ControllerContact(model, view);
     }
 }

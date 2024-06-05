@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 
 public class ControllerContact {
     ModelContact modelContact;
@@ -15,12 +14,7 @@ public class ControllerContact {
         this.modelContact = modelContact;
         this.viewContact = viewContact;
 
-        if (modelContact.readContact() != null) {
-            String[][] dataContact = modelContact.readContact();
-            viewContact.tabel.setModel(new javax.swing.table.DefaultTableModel(dataContact, viewContact.namaKolom));
-        } else {
-            JOptionPane.showMessageDialog(null, "Data kosong");
-        }
+        updateTable();
 
         viewContact.btnTambah.addActionListener(new ActionListener() {
             @Override
@@ -34,8 +28,7 @@ public class ControllerContact {
                     JOptionPane.showMessageDialog(null, "Please fill all fields");
                 } else {
                     modelContact.insertData(nama, noHp, umur, email);
-                    String[][] dataContact = modelContact.readContact();
-                    viewContact.tabel.setModel(new javax.swing.table.DefaultTableModel(dataContact, viewContact.namaKolom));
+                    updateTable();
                 }
             }
         });
@@ -52,8 +45,7 @@ public class ControllerContact {
                     JOptionPane.showMessageDialog(null, "Please fill all fields");
                 } else {
                     modelContact.updateData(nama, noHp, umur, email);
-                    String[][] dataContact = modelContact.readContact();
-                    viewContact.tabel.setModel(new javax.swing.table.DefaultTableModel(dataContact, viewContact.namaKolom));
+                    updateTable();
                 }
             }
         });
@@ -66,7 +58,7 @@ public class ControllerContact {
                     JOptionPane.showMessageDialog(null, "Please enter a name to search");
                 } else {
                     String[][] dataContact = modelContact.cariContact(cariNama);
-                    if (dataContact != null) {
+                    if (dataContact != null && dataContact.length > 0) {
                         viewContact.tabel.setModel(new javax.swing.table.DefaultTableModel(dataContact, viewContact.namaKolom));
                     } else {
                         JOptionPane.showMessageDialog(null, "Data tidak ditemukan");
@@ -78,8 +70,7 @@ public class ControllerContact {
         viewContact.btnReset.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String[][] dataContact = modelContact.readContact();
-                viewContact.tabel.setModel(new javax.swing.table.DefaultTableModel(dataContact, viewContact.namaKolom));
+                updateTable();
             }
         });
 
@@ -87,16 +78,27 @@ public class ControllerContact {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int row = viewContact.tabel.getSelectedRow();
-                String selectedNama = viewContact.tabel.getValueAt(row, 0).toString();
-                String selectedNoHp = viewContact.tabel.getValueAt(row, 1).toString();
-                String selectedUmur = viewContact.tabel.getValueAt(row, 2).toString();
-                String selectedEmail = viewContact.tabel.getValueAt(row, 3).toString();
+                if (row != -1) {
+                    String selectedNama = viewContact.tabel.getValueAt(row, 0).toString();
+                    String selectedNoHp = viewContact.tabel.getValueAt(row, 1).toString();
+                    String selectedUmur = viewContact.tabel.getValueAt(row, 2).toString();
+                    String selectedEmail = viewContact.tabel.getValueAt(row, 3).toString();
 
-                viewContact.tfNama.setText(selectedNama);
-                viewContact.tfNoHp.setText(selectedNoHp);
-                viewContact.tfUmur.setText(selectedUmur);
-                viewContact.tfEmail.setText(selectedEmail);
+                    viewContact.tfNama.setText(selectedNama);
+                    viewContact.tfNoHp.setText(selectedNoHp);
+                    viewContact.tfUmur.setText(selectedUmur);
+                    viewContact.tfEmail.setText(selectedEmail);
+                }
             }
         });
+    }
+
+    private void updateTable() {
+        String[][] dataContact = modelContact.readContact();
+        if (dataContact != null) {
+            viewContact.tabel.setModel(new javax.swing.table.DefaultTableModel(dataContact, viewContact.namaKolom));
+        } else {
+            JOptionPane.showMessageDialog(null, "Data kosong");
+        }
     }
 }

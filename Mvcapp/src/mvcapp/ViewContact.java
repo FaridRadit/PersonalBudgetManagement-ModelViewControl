@@ -1,14 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package mvcapp;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-/**
- *
- * @author LENOVO
- */
+
 public class ViewContact extends JFrame {
     JLabel lNama = new JLabel("Nama");
     JLabel lNoHp = new JLabel("No Hp");
@@ -30,11 +24,11 @@ public class ViewContact extends JFrame {
     JTable tabel;
     DefaultTableModel dtm;
     JScrollPane scrollPane;
-    Object namaKolom[] = {"Nama", "No Hp", "Usia", "E-mail"};
+    Object namaKolom[] = {"Nama", "No Hp", "Umur", "E-mail"};
 
     public ViewContact() {
         dtm = new DefaultTableModel(namaKolom, 0);
-         tabel = new JTable(dtm);
+        tabel = new JTable(dtm);
         scrollPane = new JScrollPane(tabel);
 
         setTitle("Data Kontak");
@@ -65,7 +59,7 @@ public class ViewContact extends JFrame {
         lEmail.setBounds(510, 170, 90, 20);
         add(tfEmail);
         tfEmail.setBounds(510, 190, 120, 20);
-        
+
         add(btnTambah);
         btnTambah.setBounds(510, 220, 90, 20);
         add(btnUpdate);
@@ -76,23 +70,24 @@ public class ViewContact extends JFrame {
         add(btnReset);
         btnReset.setBounds(510, 310, 90, 20);
     }
-        public String getNama() {
-    return tfNama.getText();
-}
 
-public String getNoHp() {
-    return tfNoHp.getText();
-}
+    public String getNama() {
+        return tfNama.getText();
+    }
 
-public String getUmur() {
-    return tfUmur.getText();
-}
+    public String getNoHp() {
+        return tfNoHp.getText();
+    }
 
-public String getEmail() {
-    return tfEmail.getText();
-}
+    public String getUmur() {
+        return tfUmur.getText();
+    }
 
-public String getCariNama() {
-    return tfCari.getText();
-}
+    public String getEmail() {
+        return tfEmail.getText();
+    }
+
+    public String getCariNama() {
+        return tfCari.getText();
+    }
 }
