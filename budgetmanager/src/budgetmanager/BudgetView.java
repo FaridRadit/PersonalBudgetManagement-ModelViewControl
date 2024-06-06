@@ -7,14 +7,14 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.JOptionPane;
 
-
 public class BudgetView extends JFrame {
-    private JTextField typeField;
+    private JComboBox<String> typeField;
     private JTextField amountField;
     private JTextField categoryField;
     private JTextField dateField;
     private JTextField idField;
     private JButton addButton;
+    private JButton resetAutoIncrementButton;
     private JButton updateButton;
     private JButton deleteButton;
     private JButton viewAllButton;
@@ -33,7 +33,7 @@ public class BudgetView extends JFrame {
         formPanel.setLayout(new GridLayout(11, 1));  // Changed to a single column layout
 
         formPanel.add(new JLabel("Type (Income/Expense):"));
-        typeField = new JTextField();
+        typeField = new JComboBox<>(new String[]{"Income", "Expense"});
         formPanel.add(typeField);
 
         formPanel.add(new JLabel("Amount:"));
@@ -66,8 +66,10 @@ public class BudgetView extends JFrame {
 
         viewBalanceButton = new JButton("View Balance");
         formPanel.add(viewBalanceButton);
-
+        resetAutoIncrementButton = new JButton("Reset Auto Increment");
+        formPanel.add(resetAutoIncrementButton);
         add(formPanel, BorderLayout.WEST);  // Placing form panel on the left
+        
 
         // Table panel
         tableModel = new DefaultTableModel(new String[]{"ID", "Type", "Amount", "Category", "Date"}, 0);
@@ -77,7 +79,7 @@ public class BudgetView extends JFrame {
     }
 
     public Transaction getTransactionDetails() {
-        String type = typeField.getText();
+        String type = (String) typeField.getSelectedItem();
         double amount = Double.parseDouble(amountField.getText());
         String category = categoryField.getText();
         String date = dateField.getText();
@@ -89,7 +91,7 @@ public class BudgetView extends JFrame {
     }
 
     public void setTransactionDetails(Transaction transaction) {
-        typeField.setText(transaction.getType());
+        typeField.setSelectedItem(transaction.getType());
         amountField.setText(String.valueOf(transaction.getAmount()));
         categoryField.setText(transaction.getCategory());
         dateField.setText(transaction.getDate());
@@ -129,5 +131,8 @@ public class BudgetView extends JFrame {
 
     public void addViewBalanceListener(ActionListener listener) {
         viewBalanceButton.addActionListener(listener);
+    }
+        public void addResetAutoIncrementListener(ActionListener listener) {
+        resetAutoIncrementButton.addActionListener(listener); // Tambahkan listener untuk tombol reset auto increment
     }
 }
