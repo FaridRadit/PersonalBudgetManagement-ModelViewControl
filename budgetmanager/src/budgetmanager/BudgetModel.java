@@ -17,16 +17,34 @@ public class BudgetModel {
         saveTransactionToDatabase(transaction);
     }
 
-    public void updateTransaction(int index, Transaction updatedTransaction) {
-        transactions.set(index, updatedTransaction);
-        updateTransactionInDatabase(updatedTransaction);
+   public void updateTransaction(int id, Transaction updatedTransaction) {
+    for (int i = 0; i < transactions.size(); i++) {
+        Transaction transaction = transactions.get(i);
+        if (transaction.getId() == id) {
+            transactions.set(i, updatedTransaction);
+            updateTransactionInDatabase(updatedTransaction);
+            return; // Keluar dari metode setelah menemukan dan mengupdate transaksi
+        }
     }
+}
 
-    public void deleteTransaction(int index) {
-        Transaction deletedTransaction = transactions.remove(index);
-        deleteTransactionFromDatabase(deletedTransaction);
+
+      public void deleteTransaction(int id) {
+        Transaction transactionToDelete = null;
+        for (Transaction t : transactions) {
+            if (t.getId() == id) {
+                transactionToDelete = t;
+                break;
+            }
+        }
+
+        if (transactionToDelete != null) {
+            transactions.remove(transactionToDelete);
+            deleteTransactionFromDatabase(transactionToDelete);
+        } else {
+            throw new IllegalArgumentException("Transaction with ID " + id + " not found.");
+        }
     }
-
     public List<Transaction> getTransactions() {
         return transactions;
     }
@@ -113,4 +131,14 @@ public class BudgetModel {
             e.printStackTrace();
         }
     }
+       public void resetAutoIncrement() {
+    String query = "ALTER TABLE transactions AUTO_INCREMENT = 1";
+    try (Connection conn = DatabaseConnection.getConnection();
+         Statement stmt = conn.createStatement()) {
+        stmt.executeUpdate(query);
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+}
+
 }

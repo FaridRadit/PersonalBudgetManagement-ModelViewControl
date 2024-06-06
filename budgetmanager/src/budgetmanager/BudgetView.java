@@ -14,6 +14,7 @@ public class BudgetView extends JFrame {
     private JTextField dateField;
     private JTextField idField;
     private JButton addButton;
+    private JButton resetAutoIncrementButton;
     private JButton updateButton;
     private JButton deleteButton;
     private JButton viewAllButton;
@@ -65,8 +66,10 @@ public class BudgetView extends JFrame {
 
         viewBalanceButton = new JButton("View Balance");
         formPanel.add(viewBalanceButton);
-
+        resetAutoIncrementButton = new JButton("Reset Auto Increment");
+        formPanel.add(resetAutoIncrementButton);
         add(formPanel, BorderLayout.WEST);  // Placing form panel on the left
+        
 
         // Table panel
         tableModel = new DefaultTableModel(new String[]{"ID", "Type", "Amount", "Category", "Date"}, 0);
@@ -128,5 +131,8 @@ public class BudgetView extends JFrame {
 
     public void addViewBalanceListener(ActionListener listener) {
         viewBalanceButton.addActionListener(listener);
+    }
+        public void addResetAutoIncrementListener(ActionListener listener) {
+        resetAutoIncrementButton.addActionListener(listener); // Tambahkan listener untuk tombol reset auto increment
     }
 }
